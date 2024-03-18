@@ -4,6 +4,7 @@
 
 # import libraries here:
 import time
+import random
 
 def main():
     # Initialize player attributes
@@ -30,6 +31,45 @@ def main():
         print("\nOptions:")
         for key, value in player["actions"].items():
             print(key + ". " + value)
+
+        # Get user choice
+        choice = input("Enter your choice: ")
+
+        # Process user choice
+        if choice in player["actions"]:
+            if choice == "1":
+                go_get_ice_cream(player)
+            elif choice == "2":
+                go_to_weight_room(player)
+
+            # Random event
+            random_event(player)
+
+        else:
+            print("Invalid choice. Please try again.")
+
+def go_get_ice_cream(player):
+    player["strength"] -= 1
+    print("\n" + player["name"], "goes to get ice cream at Dairy Queen and loses 1 strength. His strength is now", player["strength"], ".")
+
+    # Random event chance
+    if random.randint(1, 10) <= 3:
+        print("\nWhile enjoying the ice cream, a bird poops on", player["name"], "'s head!")
+        player["strength"] -= 1
+        print(player["name"], "loses 1 more strength due to the unfortunate event. His strength is now", player["strength"], ".")
+
+def random_event(player):
+    # Simulate random events
+    event_chance = random.randint(1, 10)
+    if event_chance <= 2:
+        print("\nA stray dog approaches", player["name"], "and follows him home. The dog becomes his loyal companion and boosts his morale!")
+        player["strength"] += 1
+        print("His strength increases to", player["strength"], ".")
+    elif event_chance >= 9:
+        print("\nWhile walking, a tree branch falls narrowly missing", player["name"], ". The adrenaline rush boosts his strength!")
+        player["strength"] += 2
+        print("His strength increases to", player["strength"], ".")
+
 
 if __name__ == "__main__":
     main()
