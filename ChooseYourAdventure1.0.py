@@ -71,5 +71,23 @@ def random_event(player):
         print("His strength increases to", player["strength"], ".")
 
 
+def go_to_weight_room(player):
+    player["strength"] += 1
+    print("\n", player["name"],
+          "went to the weight room! He worked out his arms and legs and increased his strength to", player["strength"],
+          "!")
+
+    # Random event chance
+    if random.randint(1, 10) <= 2:
+        print("\nAt the weight room, a fellow gym-goer challenged", player["name"], "to a push-up contest!")
+        if random.randint(0, 1) == 1:
+            print(player["name"], "won the contest and gained 2 strength!")
+            player["strength"] += 2
+        else:
+            print(player["name"], "lost the contest and felt demotivated, losing 1 strength.")
+            player["strength"] -= 1
+        print("His strength is now", player["strength"], "!")
+
+
 if __name__ == "__main__":
     main()
