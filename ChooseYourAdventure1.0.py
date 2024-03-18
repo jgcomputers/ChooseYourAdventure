@@ -14,7 +14,8 @@ def main():
         "actions": {
             "1": "go get ice cream",
             "2": "go to the weight room",
-            "3": "encounter a training opportunity"
+            "3": "encounter a training opportunity",
+            "4": "join the fight club"
         }
     }
 
@@ -24,7 +25,7 @@ def main():
     print(player["name"], "is just a guy who has",
           str(player["strength"]) + " strength. His goal is to get as strong as possible.")
     print("It was just a regular day, and", player["name"], "was sitting at home looking for something to do.")
-    print("He came up with three options:")
+    print("He came up with four options:")
 
     # Game loop
     while player["strength"] > 0 and player["strength"] < player["max_strength"]:
@@ -43,6 +44,8 @@ def main():
                 go_to_weight_room(player)
             elif choice == "3":
                 encounter_training_opportunity(player)
+            elif choice == "4":
+                fight_club(player)
 
             # Random event
             random_event(player)
@@ -70,21 +73,66 @@ def encounter_training_opportunity(player):
     else:
         print("\nInvalid input. No training effect.")
 
+def fight_club(player):
+    print("\n", player["name"], "decides to join the fight club!")
+    opponent_strength = random.randint(1, 10)
+    print("You will be fighting an opponent with strength level", opponent_strength)
+
+    # Determine fight outcome
+    if player["strength"] > opponent_strength:
+        print("You defeated your opponent! You gain 2 strength.")
+        player["strength"] += 2
+    elif player["strength"] < opponent_strength:
+        print("You were defeated by your opponent! You lose 2 strength.")
+        player["strength"] -= 2
+    else:
+        print("It was a draw! No change in strength.")
+
+    print("Your strength is now", player["strength"], ".")
+
 def random_event(player):
     # Simulate random events
     event_chance = random.randint(1, 10)
     if event_chance <= 2:
-        print("\nA stray dog approaches", player["name"], "and follows him home. The dog becomes his loyal companion and boosts his morale!")
-        player["strength"] += 1
-        print("His strength increases to", player["strength"], ".")
+        print("\nA stray dog approaches", player["name"], "and follows him home.")
+        decision = input("Do you want to (pet the dog/ignore the dog): ").lower()
+        while decision not in ["pet the dog", "ignore the dog"]:
+            print("Invalid choice. Please choose either 'pet the dog' or 'ignore the dog'.")
+            decision = input("Do you want to (pet the dog/ignore the dog): ").lower()
+
+        if decision == "pet the dog":
+            print("The dog becomes his loyal companion and boosts his morale!")
+            player["strength"] += 1
+            print("His strength increases to", player["strength"], ".")
+        else:
+            print("The dog barks and runs away.")
     elif event_chance >= 9:
-        print("\nWhile walking, a tree branch falls narrowly missing", player["name"], ". The adrenaline rush boosts his strength!")
-        player["strength"] += 2
-        print("His strength increases to", player["strength"], ".")
+        print("\nWhile walking, a tree branch falls narrowly missing", player["name"] + ". The adrenaline rush boosts his strength!")
+        decision = input("Do you want to (take a deep breath/ignore the event): ").lower()
+        while decision not in ["take a deep breath", "ignore the event"]:
+            print("Invalid choice. Please choose either 'take a deep breath' or 'ignore the event'.")
+            decision = input("Do you want to (take a deep breath/ignore the event): ").lower()
+
+        if decision == "take a deep breath":
+            player["strength"] += 2
+            print("His strength increases to", player["strength"], ".")
+        else:
+            print("He continues walking without reacting.")
     elif event_chance == 5:
-        print("\nOh no! While exploring, a wild animal appears and scares", player["name"], ". He loses some strength due to the fright.")
-        player["strength"] -= random.randint(1, 3)
-        print("His strength decreases to", player["strength"], ".")
+        print("\nOh no! While going home, a wild animal appears and scares", player["name"], ".")
+        decision = input("Do you want to (face the animal/try to run away): ").lower()
+        while decision not in ["face the animal", "try to run away"]:
+            print("Invalid choice. Please choose either 'face the animal' or 'try to run away'.")
+            decision = input("Do you want to (face the animal/try to run away): ").lower()
+
+        if decision == "face the animal":
+            player["strength"] -= random.randint(1, 3)
+            print("He loses some strength due to the fright.")
+            print("His strength decreases to", player["strength"], ".")
+        else:
+            print("He tries to run away but stumbles.")
+            print("His strength remains unchanged.")
+
 
 if __name__ == "__main__":
     main()
